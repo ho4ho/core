@@ -441,14 +441,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				'storage_mtime' => $mtime,
 				'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
 			];
-			$fileId = $this->getCache()->put($path, $stat);
-			try {
-				//read an empty file from memory
-				$this->objectStore->writeObject($this->getURN($fileId), \fopen('php://memory', 'r'));
-			} catch (\Exception $ex) {
-				$this->getCache()->remove($path);
-				\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
-				return false;
+			if (!isset($this->movingBetweenBuckets[$this->getBucket()]['paths'][$path])) {
+				$fileId = $this->getCache()->put($path, $stat);
+				try {
+					//read an empty file from memory
+					$this->objectStore->writeObject($this->getURN($fileId), \fopen('php://memory', 'r'));
+				} catch (\Exception $ex) {
+					$this->getCache()->remove($path);
+					\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+					return false;
+				}
 			}
 		}
 		return true;
