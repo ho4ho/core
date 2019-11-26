@@ -113,13 +113,15 @@ config = {
 			'extraApps': {
 				'notifications': 'composer install'
 			},
+			'filterTags': '~@files_sharing-app-required',
 		},
 		'apiFederation': {
 			'suites': [
 				'apiFederation',
 			],
 			'federatedServerNeeded': True,
-			'federatedServerVersions': ['daily-master-qa', '10.2.1']
+			'federatedServerVersions': ['daily-master-qa', '10.2.1'],
+			'filterTags': '~@files_sharing-app-required',
 		},
 		'cli': {
 			'suites': [
@@ -184,7 +186,8 @@ config = {
 				'webUISharingExternal': 'webUISharingExt',
 			},
 			'federatedServerNeeded': True,
-			'federatedServerVersions': ['daily-master-qa', '10.2.1']
+			'federatedServerVersions': ['daily-master-qa', '10.2.1'],
+			'filterTags': '~@files_sharing-app-required',
 		},
 		'webUIFirefox': {
 			'suites': {
